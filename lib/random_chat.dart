@@ -3,6 +3,7 @@ library random_chat;
 import 'dart:async';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:random_chat/storage.dart';
 import 'package:rxdart/subjects.dart';
 
 import 'models/identity.dart';
@@ -10,6 +11,10 @@ import 'models/message.dart';
 
 class RandomChatBloc extends Bloc{
   
+  Storage _storage;
+
+  Identity _currentIdentity;
+
   //INPUTS
 
   StreamController<Identity> _changeIdentityController = StreamController();
@@ -28,6 +33,9 @@ class RandomChatBloc extends Bloc{
   Stream<List<Message>> get messages => _messagesController.stream;
   
   RandomChatBloc() {
+    _storage = Storage();
+
+    _getCurrentIdentity();
     _changeIdentityController.stream.listen(_onIdentityChanged);
     _sendMessageController.stream.listen(_onMessageSent);
   }
@@ -40,11 +48,21 @@ class RandomChatBloc extends Bloc{
     _messagesController.close();
   }
 
-  void _onIdentityChanged(Identity newIdentity) {
-    print("Changing identity to ${newIdentity.alias}");
+  void _onIdentityChanged(Identity newIdentity) async {
+    await _storage.saveIdentity(newIdentity);
+    _currentIdentity = newIdentity;
+    _currentIdentityController.add(_currentIdentity);
   }
 
   void _onMessageSent(String text) {
-    print("Sending message $text");
+    print("Sending message : ${_currentIdentity?.alias} - $text");
+  }
+
+  void _getCurrentIdentity() async {
+    _currentIdentity = await _storage.getIdentity();
+
+    if(_currentIdentity != null) {
+      _currentIdentityController.add(_currentIdentity);
+    }
   }
 }

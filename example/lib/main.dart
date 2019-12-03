@@ -45,7 +45,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     BlocProvider.of<RandomChatBloc>(context).changeIdentity.add(Identity(alias : "Diego", profilePictureUrl : "http://"));
-    BlocProvider.of<RandomChatBloc>(context).sendMessage.add("This is my first message");
+    Future.delayed(Duration(seconds : 2), () {
+      BlocProvider.of<RandomChatBloc>(context).sendMessage.add("This is my first message");
+    });
     super.initState();
   }
 
