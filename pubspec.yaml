@@ -13,6 +13,7 @@ dependencies:
 
   bloc_provider: ^0.6.2+2
   rxdart: ^0.21.0
+  shared_preferences: ^0.5.4+6
 
 dev_dependencies:
   flutter_test:
