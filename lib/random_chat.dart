@@ -1,8 +1,13 @@
 library random_chat;
 
-class RandomChat {
+import 'package:bloc_provider/bloc_provider.dart';
+
+class RandomChatBloc extends Bloc{
   
-  String getValue() {
-    return "Hello Package";
+  
+  @override
+  void dispose() {
+
   }
+  
 }

@@ -1,3 +1,4 @@
+import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:random_chat/random_chat.dart';
 
@@ -7,13 +8,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: RandomChat().getValue(),
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: RandomChat().getValue()),
-    );
+    return BlocProvider(
+        creator: (c, b) => RandomChatBloc(),
+        child: MaterialApp(
+          title: "RandomChat Example",
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: MyHomePage(title: "RandomChat Example"),
+        ));
   }
 }
 

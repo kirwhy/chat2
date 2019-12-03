@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
 
+  bloc_provider: ^0.6.2+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
