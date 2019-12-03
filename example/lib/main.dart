@@ -1,5 +1,6 @@
 import 'package:bloc_provider/bloc_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:random_chat/models/identity.dart';
 import 'package:random_chat/random_chat.dart';
 
 void main() => runApp(MyApp());
@@ -40,6 +41,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  @override
+  void initState() {
+    BlocProvider.of<RandomChatBloc>(context).changeIdentity.add(Identity(alias : "Diego", profilePictureUrl : "http://"));
+    BlocProvider.of<RandomChatBloc>(context).sendMessage.add("This is my first message");
+    super.initState();
+  }
 
   void _incrementCounter() {
     setState(() {
