@@ -3,6 +3,7 @@ library random_chat;
 import 'dart:async';
 
 import 'package:bloc_provider/bloc_provider.dart';
+import 'package:random_chat/api.dart';
 import 'package:random_chat/storage.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -12,8 +13,11 @@ import 'models/message.dart';
 class RandomChatBloc extends Bloc{
   
   Storage _storage;
+  Api _api;
 
   Identity _currentIdentity;
+
+  StreamSubscription _messagesSubscription;
 
   //INPUTS
 
@@ -34,7 +38,9 @@ class RandomChatBloc extends Bloc{
   
   RandomChatBloc() {
     _storage = Storage();
+    _api = Api();
 
+    _messagesSubscription = _api.queryMessages().listen((messages) => _messagesController.add(messages));
     _getCurrentIdentity();
     _changeIdentityController.stream.listen(_onIdentityChanged);
     _sendMessageController.stream.listen(_onMessageSent);
@@ -46,6 +52,7 @@ class RandomChatBloc extends Bloc{
     _sendMessageController.close();
     _currentIdentityController.close();
     _messagesController.close();
+    _messagesSubscription.cancel();
   }
 
   void _onIdentityChanged(Identity newIdentity) async {
@@ -55,7 +62,13 @@ class RandomChatBloc extends Bloc{
   }
 
   void _onMessageSent(String text) {
-    print("Sending message : ${_currentIdentity?.alias} - $text");
+    if(_currentIdentity != null) {
+      _api.addMessage(Message(identity: _currentIdentity, text: text))
+      .then((_) {
+          _messagesSubscription?.cancel();
+          _messagesSubscription = _api.queryMessages().listen((messages) => _messagesController.add(messages));
+      });
+    }
   }
 
   void _getCurrentIdentity() async {
