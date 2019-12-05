@@ -1,4 +1,4 @@
-package com.example.example
+package ac.mastermind.randomchat
 
 import android.os.Bundle
 
