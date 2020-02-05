@@ -23,8 +23,8 @@ class Api {
     return Firestore.instance.collection('messages').snapshots()
       .map((snapshot) => snapshot.documents)
       .map((documents) => documents.map((document) {
-        String alias = document['identity.alias'];
-        String profilePicture = document['identity.profile_picture_url'];
+        String alias = document['identity']['alias'];
+        String profilePicture = document['identity']['profile_picture_url'];
         String text = document['text'];
         
         return Message(
