@@ -32,7 +32,7 @@ class RandomChatBloc extends Bloc {
   BehaviorSubject<Identity> _currentIdentityController = BehaviorSubject();
   Stream<Identity> get currentIdentity => _currentIdentityController.stream;
 
-  PublishSubject<List<Message>> _messagesController = PublishSubject();
+  BehaviorSubject<List<Message>> _messagesController = BehaviorSubject();
   Stream<List<Message>> get messages => _messagesController.stream;
 
   RandomChatBloc() {
