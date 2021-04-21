@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bloc_provider: ^0.8.0
+  bloc_provider: ^0.6.2+2
   rxdart: ^0.21.0
   shared_preferences: ^0.5.4+6
   cloud_firestore: ^0.12.10+2
